@@ -1,9 +1,29 @@
 {% extends 'layout.html' %}
 {% block content %}
+ <a href="{% url 'index' %}">Go to main page</a>
   <h2>Post details</h2>
   <div class="user-post">
-    <p>{{ post.author }}</p>
-    <p>{{ post.date_added }}</p>
-    <p>{{ post.text }}</p>
+    <p><b>Author</b>: {{ post.author }}</p>
+    <p><b>Date added</b>: {{ post.date_added }}</p>
+    <p><b>Text</b>: {{ post.text }}</p>
   </div>
+
+  <h3>Comments</h3>
+  <hr>
+  {% for comment in comments reversed %}
+    <div class="user-comment">
+		<p><b>Author</b>: {{ comment.author }}</p>
+		<p><b>Date added</b>: {{ comment.date_added }}</p>
+		<p><b>Text</b>: {{ comment.text }}</p>
+		<hr>
+    </div>
+{% empty %}
+    <p><i>No comments have been added yet!</i></p>
+	
+{% endfor %}
+ <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Post">
+  </form>
 {% endblock %}
